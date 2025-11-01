@@ -3,9 +3,9 @@ import { useEffect, useState } from "react";
 
 function App() {
   const images = [
-    "https://i.imgur.com/kn3tTTR.png", // Catrina figura
-    "https://i.imgur.com/4gQOYuS.png", // Calavera decorativa
-    "https://i.imgur.com/zLIFq8z.png", // Figura de altar
+    "https://mochi-images-bucket.s3.us-east-2.amazonaws.com/imagesByProduct/mochi3.jpg", // Catrina figura
+    "https://mochi-images-bucket.s3.us-east-2.amazonaws.com/imagesByProduct/mochi2.jpg", // Calavera decorativa
+    "https://mochi-images-bucket.s3.us-east-2.amazonaws.com/imagesByProduct/mochi1.jpeg", // Figura de altar
   ];
 
   // 🌼 Pétalos de cempasúchil
