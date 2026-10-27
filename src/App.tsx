@@ -1,97 +1,61 @@
-import "./index.css";
-import { useEffect, useState } from "react";
+import { useState } from 'react';
+import './index.css';
+
+const collection = [
+  { image: 'https://mochi-images-bucket.s3.us-east-2.amazonaws.com/imagesByProduct/d0914e18-cb29-4ccb-a374-d7a4be084945', url: 'https://www.mochizuma.com/product/6ad79d14607f021cdd8b856f/all', name: 'Pequeños grandes tesoros', tag: 'PARA TU COLECCIÓN' },
+  { image: 'https://mochi-images-bucket.s3.us-east-2.amazonaws.com/imagesByProduct/e9cd9b46-7c31-469b-a335-f6c7e87f45df', url: 'https://www.mochizuma.com/product/698f7a6b524a1b095ce13382/all', name: 'Personajes con mucha alma', tag: 'EL UNIVERSO MOCHI' },
+  { image: 'https://mochi-images-bucket.s3.us-east-2.amazonaws.com/imagesByProduct/502e8a93-e9d1-4fc0-a8d7-dd6a102fd343', url: 'https://www.mochizuma.com/product/6ad246fdd448fb4f335bb7d6/all', name: 'Tu próxima pieza favorita', tag: 'AMOR A PRIMERA VISTA' },
+];
+const mapUrl = 'https://maps.app.goo.gl/ERLEV6eXB4hqPjcH8';
+
+function Flower({ className = '' }: { className?: string }) {
+  return <span className={`flower ${className}`} aria-hidden="true">{Array.from({ length: 12 }, (_, i) => <i key={i} style={{ transform: `rotate(${i * 30}deg)` }} />)}<b /></span>;
+}
+function Arrow() { return <span aria-hidden="true">↗</span>; }
 
 function App() {
-  const images = [
-    "https://mochi-images-bucket.s3.us-east-2.amazonaws.com/imagesByProduct/mochi3.jpg", // Catrina figura
-    "https://mochi-images-bucket.s3.us-east-2.amazonaws.com/imagesByProduct/mochi2.jpg", // Calavera decorativa
-    "https://mochi-images-bucket.s3.us-east-2.amazonaws.com/imagesByProduct/mochi1.jpeg", // Figura de altar
-  ];
-
-  // 🌼 Pétalos de cempasúchil
-  const [petalos, setPetalos] = useState<number[]>([]);
-
-  useEffect(() => {
-    const count = 20; // cantidad de pétalos visibles
-    setPetalos(Array.from({ length: count }, (_, i) => i));
-  }, []);
-
-  return (
-    <div className="relative min-h-screen overflow-hidden flex flex-col items-center justify-between bg-gradient-to-b from-morado via-oscuro to-black font-body">
-      {/* 🌼 Pétalos animados */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {petalos.map((i) => (
-          <span
-            key={i}
-            className="petalo"
-            style={{
-              left: `${Math.random() * 100}%`,
-              animationDelay: `${Math.random() * 10}s`,
-              animationDuration: `${6 + Math.random() * 5}s`,
-              transform: `scale(${0.6 + Math.random() * 0.8})`,
-            }}
-          />
-        ))}
-      </div>
-
-      {/* Header */}
-      <header className="w-full text-center py-10 z-10">
-        <h1 className="text-5xl md:text-6xl font-titulo text-naranja drop-shadow-[0_4px_6px_rgba(0,0,0,0.6)]">
-          💀 Tienda Mochi 💐
-        </h1>
-        <p className="mt-3 text-lg md:text-xl text-white/90">
-          En Mochi Figuras Coleccionables damos vida a tu pasión por el coleccionismo. Estamos orgullosamente a tu servicio desde Apaxco, Estado de México, trayéndote las piezas más únicas y especiales para tu colección.
-        </p>
-      </header>
-
-      {/* Galería */}
-      <main className="z-10 flex flex-col items-center gap-6 p-8 bg-white/10 backdrop-blur-md rounded-3xl border border-white/20 shadow-[0_0_25px_rgba(255,255,255,0.1)] w-[90%] md:w-[70%] max-w-5xl">
-        <h2 className="text-3xl font-titulo text-naranja">Colección Especial 💫</h2>
-        <p className="text-white/80 text-center mb-6 max-w-xl">
-          Nos dedicamos a encontrar esa figura que tanto deseas esa pieza que le da el toque especial a tu colección para que no tengas que preocuparte por nada más que disfrutarla.
-        </p>
-
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-          {images.map((src, index) => (
-            <div
-              key={index}
-              className="relative w-56 h-56 sm:w-64 sm:h-64 rounded-xl overflow-hidden border-4 border-naranja shadow-[0_0_25px_rgba(249,115,22,0.5)] hover:scale-105 transition-transform duration-300 bg-black/50"
-            >
-              <img
-                src={src}
-                alt={`Figura ${index + 1}`}
-                className="object-cover w-full h-full"
-              />
-            </div>
-          ))}
+  const [menuOpen, setMenuOpen] = useState(false);
+  return <>
+    <a className="skip-link" href="#contenido">Saltar al contenido</a>
+    <div className="announcement">DEL RECUERDO NACE LA MAGIA <span>✦</span> CELEBREMOS EL DÍA DE MUERTOS <span>✦</span> HECHO CON MUCHO CORAZÓN</div>
+    <header className="header">
+      <a href="#inicio" className="brand" aria-label="Mochi, inicio"><img src="https://mochi-images-bucket.s3.us-east-2.amazonaws.com/mochizuma_mascota_transparente.png" alt="" /><span>mochi<small>FIGURAS COLECCIONABLES</small></span></a>
+      <button className="menu-toggle" aria-expanded={menuOpen} aria-controls="navigation" onClick={() => setMenuOpen(!menuOpen)}>{menuOpen ? 'Cerrar ×' : 'Menú ☰'}</button>
+      <nav id="navigation" className={menuOpen ? 'navigation is-open' : 'navigation'} aria-label="Navegación principal">
+        <a href="#coleccion" onClick={() => setMenuOpen(false)}>La colección</a>
+        <a href="#nosotros" onClick={() => setMenuOpen(false)}>Nuestra esencia</a>
+        <a href="https://mochizuma.com" target="_blank" rel="noopener noreferrer" onClick={() => setMenuOpen(false)}>Tienda en línea <Arrow /></a>
+        <a className="nav-visit" href="#visitanos" onClick={() => setMenuOpen(false)}>Visítanos <Arrow /></a>
+      </nav>
+    </header>
+    <main id="contenido">
+      <section className="hero section-shell" id="inicio">
+        <div className="hero-copy">
+          <p className="eyebrow"><span /> UNA TRADICIÓN QUE SIGUE VIVA</p>
+          <h1>Hay pasiones<br />que viven<br /><em>para siempre.</em></h1>
+          <p className="hero-description">Celebramos los recuerdos, el color y esas pequeñas figuras que nos llenan el corazón. Este Día de Muertos, dale más vida a tu colección.</p>
+          <a className="button button-orange" href="#coleccion">Descubre la colección <Arrow /></a>
+          <div className="hero-note"><span className="mini-star">✳</span><span>Desde Apaxco, con amor.<br /><strong>Para coleccionistas de corazón.</strong></span></div>
         </div>
-
-      </main>
-
-      {/* Footer */}
-      <footer className="w-full bg-morado/90 py-6 text-center mt-10 text-white border-t border-white/20 shadow-inner z-10">
-        <p className="text-sm md:text-base">
-          Hecho con 💜 por <span className="font-semibold">Charli & Mochi</span> — Tienda de Figuras Coleccionables 2025
-        </p>
-        <div className="flex justify-center gap-3 mt-3 text-xl">
-          <span className="text-naranja">🕯️</span>
-          <span className="text-verde">🌼</span>
-          <span className="text-white">💀</span>
-          <span className="text-naranja">🕯️</span>
+        <div className="hero-art" aria-label="Mochi entre flores de cempasúchil">
+          <div className="papel-string" aria-hidden="true">{['violet', 'orange', 'pink', 'violet', 'orange'].map((color, i) => <span className={`papel ${color}`} key={i}>✿</span>)}</div>
+          <div className="arch"><span className="arch-caption">EL RECUERDO FLORECE</span><span className="art-star star-one">✧</span><span className="art-star star-two">✦</span><div className="mochi-halo" /><img className="hero-mochi" src="https://mochi-images-bucket.s3.us-east-2.amazonaws.com/mochizuma_mascota_transparente.png" alt="Mochizuma, nuestra mascota" /><div className="altar-line" /><span className="art-label">MUCHA MAGIA. MUCHO MOCHI.</span></div>
+          <div className="edition-stamp">DÍA DE<br /><strong>MUERTOS</strong><span>✦ EDICIÓN DE TEMPORADA ✦</span></div>
+          <Flower className="flower-one" /><Flower className="flower-two" /><Flower className="flower-three" />
+          <div className="candle candle-one" aria-hidden="true"><i /></div><div className="candle candle-two" aria-hidden="true"><i /></div>
+          <span className="art-footnote">EL AMOR NUNCA SE OLVIDA. SE COLECCIONA.</span>
         </div>
-        <div className="mt-4">
-          <a
-            href="https://maps.app.goo.gl/ERLEV6eXB4hqPjcH8"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-white/90 hover:text-naranja underline transition-colors"
-          >
-            📍 Nos ubicamos aquí
-          </a>
-        </div>
-      </footer>
-    </div>
-  );
+      </section>
+      <div className="tradition-strip" aria-hidden="true"><span>Recuerdos que florecen</span> ✳ <span>Pasiones que trascienden</span> ✳ <span>Coleccionar es recordar</span> ✳ <span>Recuerdos que florecen</span> ✳</div>
+      <section className="collection section-shell" id="coleccion">
+        <div className="section-heading"><div><p className="eyebrow">TESOROS CON PERSONALIDAD</p><h2>Una colección <em>con alma.</em></h2></div><p>Hay una figura para cada historia.<br />Encuentra la que conecta contigo.</p></div>
+        <div className="product-grid">{collection.map((item, index) => <a className="product-card" key={item.image} href={item.url} target="_blank" rel="noopener noreferrer" aria-label={`Ver producto: ${item.name} (abre en una pestaña nueva)`}><div className="product-image"><img src={item.image} alt={`Fotografía de figuras coleccionables de Mochi: ${item.name.toLowerCase()}`} loading="lazy" /><span className="product-number">0{index + 1}</span><span className="expand-image" aria-hidden="true">↗</span></div><div className="product-info"><span>{item.tag}</span><h3>{item.name}</h3><p>Ver producto <span aria-hidden="true">↗</span></p></div></a>)}</div>
+        <p className="collection-note">✧ ¿Una figura te robó el corazón? Consulta sus detalles y disponibilidad en nuestra tienda en línea.</p>
+      </section>
+      <section className="story section-shell" id="nosotros"><div className="story-symbol" aria-hidden="true"><Flower /><span>✦</span></div><div><p className="eyebrow">NUESTRA ESENCIA</p><h2>Más que figuras.<br /><em>Un pedacito de ti.</em></h2><p>En Mochi Figuras Coleccionables damos vida a tu pasión por el coleccionismo. Desde Apaxco, Estado de México, buscamos esas piezas únicas que hacen especial tu colección.</p><p>Porque sabemos que una figura puede guardar una historia, un recuerdo o todo un universo.</p></div><span className="story-side" aria-hidden="true">HECHO DE RECUERDOS Y PASIÓN</span></section>
+      <section className="visit section-shell" id="visitanos"><p className="eyebrow">AQUÍ EMPIEZA TU PRÓXIMA HISTORIA</p><h2>Nos vemos <em>en Mochi.</em></h2><p>Ven a descubrir tu próxima pieza favorita.<br />Te esperamos en Apaxco, Estado de México.</p><a className="button button-dark" href={mapUrl} target="_blank" rel="noopener noreferrer">Cómo llegar a la tienda <Arrow /></a><span className="visit-detail">Abrir ubicación en Google Maps ↗</span><div><a className="button button-dark" href="https://mochizuma.com" target="_blank" rel="noopener noreferrer">Visita nuestra tienda <Arrow /></a></div><Flower className="visit-flower left" /><Flower className="visit-flower right" /></section>
+    </main>
+    <footer className="footer"><a href="#inicio" className="footer-brand">mochi<span>✦</span></a><p>Hecho con corazón por Charli & Mochi.<br /><span>© {new Date().getFullYear()} · Apaxco, Estado de México</span></p><a href="#inicio">Volver arriba ↑</a></footer>
+  </>;
 }
-
 export default App;
